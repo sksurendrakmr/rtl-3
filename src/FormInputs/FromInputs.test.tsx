@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
+import FormInputs from "./FormInputs";
 import userEvent from "@testing-library/user-event";
 
 type InputProps = {
@@ -10,7 +10,7 @@ type InputProps = {
 };
 
 beforeEach(() => {
-  render(<App />);
+  render(<FormInputs />);
 });
 
 const typeIntoForm = ({ email, password, confirmPassword }: InputProps) => {
