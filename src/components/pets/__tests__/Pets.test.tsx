@@ -1,5 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Pets } from "../Pets";
+import catMocks from "../../../mocks/cats.json";
+//step-1
+import { rest } from "msw";
+import { setupServer } from "msw/node";
 /**
  * This test really making an HTTP request to our server to get the data
  * even though our element is in virtual dom.
@@ -13,7 +17,22 @@ import { Pets } from "../Pets";
  * Calling our server cost money.
  *
  * Calling server is slow (might take times to get the response).
+ *
+ * mock the data that we would get from HTTP
  */
+
+//steps-2 -> setup mock server
+const server = setupServer(
+  rest.get("http://localhost:4000/cats", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(catMocks));
+  })
+);
+
+//step-3 start listening to mock server before all  test
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 describe("pets", () => {
   test("should render mocked petCard", async () => {
     render(<Pets />);
