@@ -1,11 +1,11 @@
 import React from "react";
-import { Cards } from "./components/Cards/Cards";
+import { Pets } from "./components/pets/Pets";
 import cats from "./mocks/cats.json";
 
 const App = () => {
   return (
     <div>
-      <Cards cats={cats} />
+      <Pets />
     </div>
   );
 };
