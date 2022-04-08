@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { findAllByRole, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Pets } from "../Pets";
 import catMocks from "../../../mocks/cats.json";
 //step-1
@@ -29,6 +30,7 @@ const server = setupServer(
 );
 
 //step-3 start listening to mock server before all  test
+beforeEach(() => render(<Pets />));
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
@@ -38,5 +40,22 @@ describe("pets", () => {
     render(<Pets />);
     const cards = await screen.findAllByRole("article");
     expect(cards.length).toBe(5);
+  });
+
+  test("should filter male cards", async () => {
+    const cards = await screen.findAllByRole("article");
+    userEvent.selectOptions(screen.getByLabelText(/gender/i), "male");
+    const maleCards = screen.getAllByRole("article");
+    expect(maleCards).toStrictEqual([cards[1], cards[3]]);
+  });
+
+  test("should filter female cards", async () => {
+    const cards = await screen.findAllByRole("article");
+    userEvent.selectOptions(screen.getByLabelText(/gender/i), "female");
+    expect(screen.getAllByRole("article")).toStrictEqual([
+      cards[0],
+      cards[2],
+      cards[4],
+    ]);
   });
 });
