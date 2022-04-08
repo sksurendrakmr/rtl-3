@@ -8,7 +8,7 @@ type CardsProps = {
 export const Cards = ({ cats }: CardsProps) => {
   return (
     <div className="pet-cards-container">
-      {cats.map(({ name, email, image, phone, favoured }) => (
+      {cats.map(({ name, email, image, phone, favoured, gender }) => (
         <Card
           key={name + phone}
           email={email}
@@ -16,6 +16,7 @@ export const Cards = ({ cats }: CardsProps) => {
           image={image}
           favoured={favoured}
           name={name}
+          gender={gender}
         />
       ))}
     </div>

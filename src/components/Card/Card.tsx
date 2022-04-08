@@ -13,6 +13,7 @@ export type CatProps = {
   email: string;
   favoured: boolean;
   image: ImageTypes;
+  gender: string;
 };
 export const Card = ({ name, phone, email, image, favoured }: CatProps) => {
   const [isFavoured, setIsFavoured] = useState(favoured);

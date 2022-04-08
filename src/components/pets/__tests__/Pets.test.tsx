@@ -1,4 +1,4 @@
-import { findAllByRole, render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Pets } from "../Pets";
 import catMocks from "../../../mocks/cats.json";
@@ -54,6 +54,32 @@ describe("pets", () => {
     userEvent.selectOptions(screen.getByLabelText(/gender/i), "female");
     expect(screen.getAllByRole("article")).toStrictEqual([
       cards[0],
+      cards[2],
+      cards[4],
+    ]);
+  });
+  test("should filter for favoured cats", async () => {
+    const cards = await screen.findAllByRole("article");
+    const buttonForFirstCard = within(cards[0]).getByRole("button");
+    const buttonForFourthCard = within(cards[3]).getByRole("button");
+    userEvent.click(buttonForFirstCard);
+    userEvent.click(buttonForFourthCard);
+    userEvent.selectOptions(screen.getByLabelText(/favourite/i), "favoured");
+    expect(screen.getAllByRole("article")).toStrictEqual([cards[0], cards[3]]);
+  });
+
+  test("should filter for non favoured cats", async () => {
+    const cards = await screen.findAllByRole("article");
+    const buttonForFirstCard = within(cards[0]).getByRole("button");
+    const buttonForFourthCard = within(cards[3]).getByRole("button");
+    userEvent.click(buttonForFirstCard);
+    userEvent.click(buttonForFourthCard);
+    userEvent.selectOptions(
+      screen.getByLabelText(/favourite/i),
+      "non favoured"
+    );
+    expect(screen.getAllByRole("article")).toStrictEqual([
+      cards[1],
       cards[2],
       cards[4],
     ]);
