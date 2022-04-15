@@ -1,9 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvents from "@testing-library/user-event";
-import { Card, CatProps } from "../Card";
+import { Card, CardProps, CatProps } from "../Card";
 
-const props: CatProps = {
+const props: CardProps = {
   name: "Sydney",
   phone: "111-111-11111",
   email: "sk@gmail.com",
@@ -12,6 +12,9 @@ const props: CatProps = {
     alt: "cute cat",
   },
   favoured: false,
+  updateFavourite: () => {},
+  index: 1,
+  gender: "male",
 };
 
 describe("Card", () => {

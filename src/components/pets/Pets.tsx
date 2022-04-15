@@ -7,12 +7,14 @@ import { CatProps } from "../Card/Card";
 
 export type FilterState = {
   gender: string;
+  favoured: boolean | string;
 };
 export const Pets = () => {
   const [cats, setCats] = useState<CatProps[]>([]);
   const [filteredCats, setFilteredCats] = useState<CatProps[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     gender: "any",
+    favoured: "any",
   });
   const fetchCats = async () => {
     const data = await axios.get("http://localhost:4000/cats");
@@ -30,14 +32,20 @@ export const Pets = () => {
         (cat) => cat.gender === filters.gender
       );
     }
+    if (filters.favoured !== "any") {
+      catsFiltered = catsFiltered.filter(
+        (cat) =>
+          cat.favoured === (filters.favoured === "favoured" ? true : false)
+      );
+    }
     setFilteredCats(catsFiltered);
-  }, [filters]);
+  }, [filters, cats]);
 
   return (
     <div className="container">
       <div className="appContainer">
         <Filter filters={filters} setFilters={setFilters} />
-        <Cards cats={filteredCats} />
+        <Cards cats={filteredCats} setCats={setCats} />
       </div>
     </div>
   );

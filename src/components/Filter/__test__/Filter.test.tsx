@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { Filter, FilterProps } from "../Filter";
 
 const defaultProps: FilterProps = {
-  filters: { gender: "" },
+  filters: { gender: "", favoured: "" },
   setFilters: jest.fn(),
 };
 

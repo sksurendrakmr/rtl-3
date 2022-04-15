@@ -15,10 +15,24 @@ export type CatProps = {
   image: ImageTypes;
   gender: string;
 };
-export const Card = ({ name, phone, email, image, favoured }: CatProps) => {
+
+export type CardProps = CatProps & {
+  updateFavourite: (index: number, favoured: boolean) => void;
+  index: number;
+};
+export const Card = ({
+  name,
+  phone,
+  email,
+  image,
+  favoured,
+  updateFavourite,
+  index,
+}: CardProps) => {
   const [isFavoured, setIsFavoured] = useState(favoured);
 
   const toggleFavoured = (e: MouseEvent<HTMLButtonElement>) => {
+    updateFavourite(index, !isFavoured);
     setIsFavoured((prevState) => !prevState);
   };
   return (
